@@ -19,7 +19,7 @@ def before_sanic(sanic, loop):
         port=settings.REDIS_PORT,
         namespace="main"
     )
-    aiocache.settings.set_default_serializer("aiocache.serializers.JsonSerializer")
+    aiocache.settings.set_default_serializer("aiocache.serializers.PickleSerializer")
 
 
 @api_v1.route('/ping')
@@ -40,16 +40,18 @@ async def serve(request):
         return response.json({'status': 'error', 'message': 'URL not allowed'}, status=400)
 
     log.info(f'/serve: {url}')
-    webpage = await fetch(url)
+    raw, content_type = await fetch(url)
 
-    return response.text(body=webpage)
+    return response.raw(body=raw, content_type=content_type)
 
 
 @aiocache.cached(key_from_attr='url', ttl=settings.TTL)
 async def fetch(url):
     async with aiohttp.ClientSession() as session:
         async with session.get(url, timeout=60) as r:
-            return await r.text()
+            data = [await r.read(), r.headers['Content-Type']]
+
+    return data
 
 
 app.blueprint(api_v1)

@@ -24,7 +24,9 @@ def before_sanic(sanic, loop):
 
 @api_v1.route('/ping')
 async def ping(request):
-    log.info('/ping')
+    if settings.DEBUG:
+        log.info('/ping')
+
     return response.json({'status': 'ok'})
 
 
@@ -39,7 +41,8 @@ async def serve(request):
         log.info(f'/serve: {url} not allowed')
         return response.json({'status': 'error', 'message': 'URL not allowed'}, status=400)
 
-    log.info(f'/serve: {url}')
+    if settings.DEBUG:
+        log.info(f'/serve: {url}')
     raw, content_type = await fetch(url)
 
     return response.raw(body=raw, content_type=content_type)
@@ -56,4 +59,10 @@ async def fetch(url):
 
 app.blueprint(api_v1)
 
-app.run(host='0.0.0.0', port=settings.PORT, before_start=before_sanic, workers=settings.WORKERS)
+app.run(
+    host='0.0.0.0',
+    port=settings.PORT,
+    before_start=before_sanic,
+    workers=settings.WORKERS,
+    debug=settings.DEBUG,
+)

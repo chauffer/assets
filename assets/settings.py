@@ -5,6 +5,7 @@ api_version = 'v1'
 
 PORT = int(os.getenv('ASSETS_PORT', '80'))
 WORKERS = int(os.getenv('ASSETS_WORKERS', multiprocessing.cpu_count()))
+DEBUG = os.getenv('ASSETS_DEBUG') is not None
 
 REDIS_HOST = os.getenv('ASSETS_REDIS_HOST', 'redis')
 REDIS_PORT = os.getenv('ASSETS_REDIS_PORT', '6379')

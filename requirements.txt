@@ -5,17 +5,42 @@
 #    pip-compile --output-file requirements.txt requirements.in
 #
 aiocache==0.3.3
-aiofiles==0.3.1           # via sanic
-aiohttp==2.0.7
-aiomcache==0.5.1          # via aiocache
+    # via -r requirements.in
+aiofiles==0.3.1
+    # via sanic
+aiohttp==3.7.4
+    # via -r requirements.in
+aiomcache==0.5.1
+    # via aiocache
 aioredis==0.3.0
-async-timeout==1.2.0      # via aiohttp
-chardet==3.0.2            # via aiohttp
-hiredis==0.2.0            # via aioredis
-httptools==0.0.9          # via sanic
-multidict==2.1.4          # via aiohttp, yarl
+    # via
+    #   -r requirements.in
+    #   aiocache
+async-timeout==3.0.1
+    # via aiohttp
+attrs==20.3.0
+    # via aiohttp
+chardet==3.0.2
+    # via aiohttp
+hiredis==0.2.0
+    # via aioredis
+httptools==0.0.9
+    # via sanic
+idna==3.1
+    # via yarl
+multidict==5.1.0
+    # via
+    #   aiohttp
+    #   yarl
 sanic==0.5.1
-ujson==1.35               # via sanic
-uvloop==0.8.0             # via sanic
-websockets==3.3           # via sanic
-yarl==0.10.0              # via aiohttp
+    # via -r requirements.in
+typing-extensions==3.7.4.3
+    # via aiohttp
+ujson==1.35
+    # via sanic
+uvloop==0.8.0
+    # via sanic
+websockets==3.3
+    # via sanic
+yarl==1.6.3
+    # via aiohttp
